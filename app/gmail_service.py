@@ -1,6 +1,7 @@
 import os
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
+import base64
 
 SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
 
