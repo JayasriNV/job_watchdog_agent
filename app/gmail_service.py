@@ -1,13 +1,22 @@
-from googleapiclient.discovery import build
+import os
 from google.oauth2.credentials import Credentials
-import base64
+from googleapiclient.discovery import build
 
-SCOPES = ['https://www.googleapis.com/auth/gmail.modify']
+SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
 
 
 def get_service():
-    creds = Credentials.from_authorized_user_file("app/token.json", SCOPES)
-    return build("gmail", "v1", credentials=creds)
+    creds = Credentials(
+        None,
+        refresh_token=os.getenv("GMAIL_REFRESH_TOKEN"),
+        token_uri="https://oauth2.googleapis.com/token",
+        client_id=os.getenv("GMAIL_CLIENT_ID"),
+        client_secret=os.getenv("GMAIL_CLIENT_SECRET"),
+        scopes=SCOPES,
+    )
+
+    service = build("gmail", "v1", credentials=creds)
+    return service
 
 
 def get_latest_email():
